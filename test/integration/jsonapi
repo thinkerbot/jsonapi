@@ -1,0 +1,12 @@
+#!/bin/bash
+. test/integration/helper
+
+#
+# -h
+#
+
+test_jsonapi_h_prints_help () {
+jsonapi -h | grep -q "usage: jsonapi"
+}
+
+. ts

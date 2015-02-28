@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+$:.unshift File.expand_path("../../lib", __FILE__)
+begin
+  require 'optparse'
+  require 'jsonapi'
+
+  options = {
+  }
+  OptionParser.new do |opts|
+    opts.banner = %{
+usage: jsonapi [options] ARGS...
+
+  DESCRIPTION
+
+options:
+
+}.lstrip
+
+    opts.on("-h", "--help", "print this help") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+rescue Interrupt
+  exit 130
+rescue Errno::EPIPE
+  exit 0
+end
