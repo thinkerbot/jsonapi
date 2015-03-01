@@ -1,6 +1,30 @@
 #!/bin/bash
 . test/integration/helper
 
+setup () {
+mkdir -p "$ts_test_dir"
+inputs="$ts_test_dir/inputs"
+}
+
+test_jsonapi_prints_nothing () {
+jsonapi | assert_json_output '
+'
+}
+
+test_jsonapi_prints_resources () {
+jsonapi "$(fixture multiple_data)" | assert_json_output '
+{"type":"posts","id":"1","title":"post one"}
+{"type":"posts","id":"2","title":"post two"}
+'
+}
+
+test_jsonapi_prints_select_resources () {
+jsonapi "$(fixture multiple_data)" | assert_json_output '
+{"type":"posts","id":"1","title":"post one"}
+{"type":"posts","id":"2","title":"post two"}
+'
+}
+
 #
 # -h
 #

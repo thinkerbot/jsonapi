@@ -1,0 +1,11 @@
+{
+  "data": [{
+    "type": "posts",
+    "id": "1",
+    "title": "post one"
+  },{
+    "type": "posts",
+    "id": "2",
+    "title": "post two"
+  }]
+}

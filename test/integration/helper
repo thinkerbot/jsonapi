@@ -1,1 +1,12 @@
 export PATH="$PWD/bin:$PATH"
+export FIXTURE_DIR="$PWD/test/fixtures"
+
+fixture () {
+  basename="$1"
+  printf "%s\n" "file:${FIXTURE_DIR}/${basename}.json"
+}
+
+assert_json_output () {
+  assert_output "${1#
+}"
+}

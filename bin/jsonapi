@@ -2,13 +2,15 @@
 $:.unshift File.expand_path("../../lib", __FILE__)
 begin
   require 'optparse'
-  require 'jsonapi'
+  require 'jsonapi/session'
 
   options = {
+    :mode => :select,
+    :selection => nil,
   }
   OptionParser.new do |opts|
     opts.banner = %{
-usage: jsonapi [options] ARGS...
+usage: jsonapi [options] URLS...
 
   DESCRIPTION
 
@@ -16,11 +18,35 @@ options:
 
 }.lstrip
 
+    opts.on("-d", "--document", "print documents and exit") do
+      options[:mode] = :document
+    end
+
+    opts.on("-s", "--select SELECTION", "set selection") do |value|
+      options[:selection] = value
+    end
+
     opts.on("-h", "--help", "print this help") do
       puts opts
       exit
     end
   end.parse!
+
+  urls = ARGV.dup; ARGV.clear
+  session = Jsonapi::Session.new
+  selection = options[:selection]
+
+  mode = options[:mode]
+  urls.each do |url|
+    session.get(url)
+    puts \
+    case mode
+    when :select
+      session.select(selection)
+    when :document
+      session.curr
+    end
+  end
 
 rescue Interrupt
   exit 130
